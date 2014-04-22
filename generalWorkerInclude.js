@@ -1,7 +1,7 @@
 define([], function () {
 	"use strict";
 
-	var useWorkers = false && !!window.Worker;
+	var useWorkers = !!window.Worker;
 
 	var beforeCallback = function (evt, cb) {
 		cb();
@@ -148,7 +148,7 @@ define([], function () {
 			var that = this;
 			var setup = true;
 
-			var theWorker = new Worker("assets/js/crypto/generalWorker.js");
+			var theWorker = new Worker("assets/js/cryptoWorker/generalWorker.js");
 
 			this.busy = true;
 			var listener = function () {};

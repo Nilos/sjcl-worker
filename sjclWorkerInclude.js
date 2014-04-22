@@ -38,7 +38,7 @@ define(["cryptoWorker/generalWorkerInclude", "cryptoWorker/minimalHelper"], func
 		}
 	};
 
-	var workers = new WorkerManager("crypto/sjclWorker", 2, addEntropy);
+	var workers = new WorkerManager("cryptoWorker/sjclWorker", 4, addEntropy);
 
 	var sjclWorker = {
 		asym: {
