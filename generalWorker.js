@@ -3,7 +3,7 @@
 importScripts("../libs/require.js");
 
 requirejs.config({
-	baseUrl: "/assets/js"
+	baseUrl: "../"
 });
 
 
