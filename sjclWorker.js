@@ -84,8 +84,8 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 
 		if (data.point) {
-			var x =	data.curve.field(data.point.x);
-			var y = data.curve.field(data.point.y);
+			var x =	new data.curve.field(data.point.x);
+			var y = new data.curve.field(data.point.y);
 			data.point = new sjcl.ecc.point(data.curve, x, y);
 		}
 	}

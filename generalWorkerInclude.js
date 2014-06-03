@@ -108,7 +108,7 @@ define([], function () {
 						data: message
 					});
 
-					if (result) {
+					if (typeof result !== "undefined") {
 						window.setTimeout(function () {
 							beforeCallback({data: result}, function () {
 								var saveListener = listener;

@@ -1,5 +1,17 @@
 define([], function () {
 	var chelper = {
+		getCurveName: function (curve) {
+			var curcurve;
+			for (curcurve in sjcl.ecc.curves) {
+				if (sjcl.ecc.curves.hasOwnProperty(curcurve)) {
+					if (sjcl.ecc.curves[curcurve] === curve) {
+						return curcurve;
+					}
+				}
+			}
+
+			throw "curve not existing";
+		},
 		getCurve: function (curveName) {
 			if (typeof curveName !== "string" || curveName.substr(0, 1) !== "c") {
 				curveName = "c" + curveName;

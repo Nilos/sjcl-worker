@@ -127,8 +127,10 @@ define(["cryptoWorker/generalWorkerInclude", "cryptoWorker/minimalHelper"], func
 						action: "verify",
 
 						curve: chelper.getCurveName(publicKey._curve),
-						x: publicKey._point.x.toString(),
-						y: publicKey._point.y.toString(),
+						point: {
+							x: publicKey._point.x.toString(),
+							y: publicKey._point.y.toString()
+						},
 
 						signature: chelper.bits2hex(signature),
 						hash: chelper.bits2hex(hash)
