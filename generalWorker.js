@@ -25,7 +25,7 @@ self.onmessage = function (event) {
 	if (theHandler) {
 		result = theHandler(event);
 
-		if (result) {
+		if (typeof result !== "undefined") {
 			self.postMessage(result);
 		}
 	}
