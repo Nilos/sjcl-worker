@@ -13,18 +13,20 @@ define([], function () {
 
 		var MyWorker, WorkerPolyFill;
 
-		var createWorker = function (callback) {
-			var newWorker;
+		var createWorker = function () {
+			var newWorker, id;
 
 			function finalizeWorker() {
 				newWorker.busy = false;
 				newWorker.setupDone();
-				callback(null, newWorker);
+				signalFree(id);
 			}
 
 			function setupWorker(event) {
 				if (newWorker.removeEventListener) {
-					newWorker.removeEventListener("error", callback);
+					newWorker.removeEventListener("error", function (e) {
+						console.error(e);
+					});
 					newWorker.removeEventListener("message", setupWorker);
 				}
 
@@ -40,12 +42,15 @@ define([], function () {
 			}
 
 			if (useWorkers) {
-				newWorker = new MyWorker(++idCount);
+				id = ++idCount;
+				newWorker = new MyWorker(id);
 
 				workersById[idCount] = newWorker;
 				workerList.push(newWorker);
 
-				newWorker.addEventListener("error", callback);
+				newWorker.addEventListener("error", function (e) {
+					console.error(e);
+				});
 				newWorker.addEventListener("message", setupWorker);
 
 				newWorker.postMessage({
@@ -169,7 +174,8 @@ define([], function () {
 				that.busy = true;
 				if (theListener) {
 					listener = theListener;
-					console.time("workerJob" + workerid);
+					//console.log(workerid + ":" + JSON.stringify(message));
+					//console.time("workerJob" + workerid);
 				}
 
 				theWorker.postMessage(message);
@@ -194,8 +200,8 @@ define([], function () {
 
 			theWorker.onmessage = function (event) {
 				beforeCallback(event, function () {
-					/*console.timeEnd("workerJob" + workerid);
-					console.debug(event.data);*/
+					//console.timeEnd("workerJob" + workerid);
+					//console.debug(event.data);
 					var saveListener = listener;
 
 					that.busy = false;
@@ -220,12 +226,13 @@ define([], function () {
 			}
 
 			if (workerList.length < numberOfWorkers) {
-				createWorker(cb);
-				return;
+				createWorker();
 			}
 
 			workerWaitQueue.push(cb);
 		};
+
+		createWorker();
 	};
 
 	WorkerManager.setBeforeCallBack = function (cb) {
