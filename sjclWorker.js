@@ -16,18 +16,16 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 	function handleSym(data) {
 		transformSymData(data);
 
-		var func;
-
-		if (data.encrypt) {
-			func = sjcl.encrypt;
-		} else {
-			func = sjcl.decrypt;
+		var config = {};
+		if (data.iv) {
+			config.iv = data.iv;
 		}
 
-		if (data.iv === undefined) {
-			return func(data.key, data.message);
+		if (data.encrypt) {
+			return sjcl.encrypt(data.key, data.message, config);
 		} else {
-			return func(data.key, data.message, {"iv": data.iv});
+			config.raw = 1;
+			return sjcl.decrypt(data.key, data.message, config);
 		}
 	}
 
