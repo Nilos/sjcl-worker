@@ -88,6 +88,17 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 	}
 
+	function handleHash(data) {
+		var text = data.tohash;
+
+		var i, h = new sjcl.hash.sha256(), PART = 8 * 50;
+		for (i = 0; i < text.length / PART; i+= 1) {
+			h.update(sjcl.codec.base64.toBits(text.substr(i*PART, PART)));
+		}
+
+		return chelper.bits2hex(h.finalize());
+	}
+
 	function handleAsym(data) {
 		transformAsymData(data);
 
@@ -123,18 +134,20 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 
 		var asym = event.data.asym;
+		var hash = event.data.hash;
 
-		var result;
 		try {
-			if (asym) {
-				result = handleAsym(event.data);
-			} else {
-				result = handleSym(event.data);
+			if (hash) {
+				return handleHash(event.data);
 			}
-		} catch (e) {
-			result = false;
-		}
 
-		return result;
+			if (asym) {
+				return handleAsym(event.data);
+			}
+
+			return handleSym(event.data);
+		} catch (e) {
+			return false;
+		}
 	};
 });

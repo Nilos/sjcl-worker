@@ -41,6 +41,16 @@ define(["cryptoWorker/generalWorkerInclude", "cryptoWorker/minimalHelper"], func
 	var workers = new WorkerManager("cryptoWorker/sjclWorker", 4, addEntropy);
 
 	var sjclWorker = {
+		hash: function (toHash, callback) {
+			workers.getFreeWorker(function (err, worker) {
+				var data = {
+					hash: true,
+					toHash: toHash
+				};
+
+				worker.postMessage(data, callback);
+			});			
+		},
 		asym: {
 			generateCryptKey: function (curve, callback) {
 				if (typeof curve === "function") {
