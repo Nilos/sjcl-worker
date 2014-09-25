@@ -134,10 +134,10 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 
 		var asym = event.data.asym;
-		var hash = event.data.hash;
+		var isHash = event.data.isHash;
 
 		try {
-			if (hash) {
+			if (isHash) {
 				return handleHash(event.data);
 			}
 

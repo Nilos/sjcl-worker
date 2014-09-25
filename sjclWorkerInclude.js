@@ -44,7 +44,7 @@ define(["cryptoWorker/generalWorkerInclude", "cryptoWorker/minimalHelper"], func
 		hash: function (toHash, callback) {
 			workers.getFreeWorker(function (err, worker) {
 				var data = {
-					hash: true,
+					isHash: true,
 					toHash: toHash
 				};
 
