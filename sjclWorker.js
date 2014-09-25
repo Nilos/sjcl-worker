@@ -7,10 +7,6 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 
 		data.key = chelper.hex2bits(data.key);
-
-		if (typeof data.message !== "string") {
-			data.message = sjcl.json.encode(data.message);
-		}
 	}
 
 	function handleSym(data) {
@@ -22,7 +18,7 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 		}
 
 		if (data.encrypt) {
-			return sjcl.encrypt(data.key, data.message, config);
+			return sjcl.json._encrypt(data.key, data.message, config);
 		} else {
 			config.raw = 1;
 			return sjcl.decrypt(data.key, data.message, config);
@@ -89,7 +85,7 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 	}
 
 	function handleHash(data) {
-		var text = data.tohash;
+		var text = data.toHash;
 
 		var i, h = new sjcl.hash.sha256(), PART = 8 * 50;
 		for (i = 0; i < text.length / PART; i+= 1) {

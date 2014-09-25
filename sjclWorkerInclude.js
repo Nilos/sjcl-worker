@@ -151,12 +151,11 @@ define(["cryptoWorker/generalWorkerInclude", "cryptoWorker/minimalHelper"], func
 			}
 		},
 		sym: {
-			encrypt: function (key, message, iv, callback) {
+			encrypt: function (key, message, callback) {
 				workers.getFreeWorker(function (err, worker) {
 					var data = {
 						"key": key,
 						"message": message,
-						"iv": iv,
 
 						"asym": false,
 						"encrypt": true
