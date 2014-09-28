@@ -21,7 +21,7 @@ define(["libs/sjcl", "cryptoWorker/minimalHelper"], function (sjcl, chelper) {
 			return sjcl.json._encrypt(data.key, data.message, config);
 		} else {
 			config.raw = 1;
-			return sjcl.decrypt(data.key, data.message, config);
+			return sjcl.json._decrypt(data.key, data.message, config);
 		}
 	}
 
