@@ -1,6 +1,6 @@
 "use strict";
 
-importScripts("../libs/require.js");
+importScripts("../bower/requirejs/require.js");
 
 requirejs.config({
 	baseUrl: "../"
